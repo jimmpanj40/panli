@@ -153,6 +153,7 @@ for i = 1 : maxDB + 1
     symbErrorRateExp(i) = symbError/length(an);
 end
 
+% Plot
 figure()
 semilogy(normalisedNoiseDB,binErrorRateExp)
 hold on
@@ -163,9 +164,12 @@ ylabel("Bit error rate")
 ylim([0.0001 1])
 legend("Bit error rate","Symbol error rate")
 
-%%
+%% Theorical curve of error probability
+
 binErrorRateTh=4*((sqrt(M)-1)/(sqrt(M)*log2(M)))*0.5*erfc(sqrt(normalisedNoise*6*log2(M)/(M^2-1))/sqrt(2));
 symbErrorRateTh=binErrorRateTh*log2(M);
+
+% Plot
 figure()
 semilogy(normalisedNoiseDB,binErrorRateTh)
 hold on
