@@ -108,12 +108,12 @@ M = 16;
 N = 32768;
 
 % Normalised SNR
-maxDB = 25;
+maxDB = 15;
 normalisedNoiseDB = 0 : maxDB;
 normalisedNoise = 10.^(normalisedNoiseDB/10);
 
 % Variance calculation
-sigma2 = (g0^2*(M^2 - 1))./(6*log2(M)*normalisedNoise);
+sigma2 = (g0^2*(M - 1))./(3*log2(M)*normalisedNoise);
 
 binErrorRateExp = zeros(1,13);
 symbErrorRateExp = zeros(1,13);
@@ -157,16 +157,16 @@ figure()
 semilogy(normalisedNoiseDB,binErrorRateExp)
 hold on
 semilogy(normalisedNoiseDB,symbErrorRateExp)
-title("Error rate curve ")
+title("Experimental error rate curve ")
 xlabel("Normalised SNR in dB")
 ylabel("Bit error rate")
 ylim([0.0001 1])
 legend("Bit error rate","Symbol error rate")
 
-%% Question 4 Theorical curve of error probability
+%% Question 4 Theoretical curve of error probability
 
-% Calculating theorical error probability
-binErrorRateTh=4*((sqrt(M)-1)/(sqrt(M)*log2(M)))*0.5*erfc(sqrt(normalisedNoise*3*log2(M)/(M^2-1))/sqrt(2));
+% Calculating theoretical error probability
+binErrorRateTh=4*((sqrt(M)-1)/(sqrt(M)*log2(M)))*0.5*erfc(sqrt(normalisedNoise*(3*log2(M))/(M-1))/sqrt(2));
 symbErrorRateTh=binErrorRateTh*log2(M);
 
 % Plot
@@ -174,8 +174,8 @@ figure()
 semilogy(normalisedNoiseDB,binErrorRateTh)
 hold on
 semilogy(normalisedNoiseDB,symbErrorRateTh)
-title("Theorical error rate curve ")
+title("Theoretical error rate curve ")
 xlabel("Normalised SNR in dB")
 ylabel("Bit error rate")
-ylim([0 1.6])
+%ylim([0 1.6])
 legend("Bit error rate","Symbol error rate")
