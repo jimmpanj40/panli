@@ -165,7 +165,7 @@ legend("Bit error rate","Symbol error rate")
 
 %% Question 4 Theorical curve of error probability
 
-% Calculating theorical error probability
+% Calculating theorical 
 binErrorRateTh=4*((sqrt(M)-1)/(sqrt(M)*log2(M)))*0.5*erfc(sqrt(normalisedNoise*6*log2(M)/(M^2-1))/sqrt(2));
 symbErrorRateTh=binErrorRateTh*log2(M);
 
