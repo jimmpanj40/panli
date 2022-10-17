@@ -18,24 +18,12 @@ x = real(mComplex(:));
 y = imag(mComplex(:));
 z = mGray(:);
 
-% new figure
-figure(1)
-hold on
-% Plot constellation's points
-scatter(x,y,50,'b*');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
 % adding Gray code
 for k = 1 : M
     text(x(k)-0.6,y(k)+0.3,...
         dec2base(z(k),2,log2(M)),'Color',[1 0 0]);
 end
 
-% parametres figure
-title('Gray coding of M-QAM');
-xlabel('I');
-ylabel('Q');
-grid on
 
 %% Question 2 Communication chain
 
@@ -54,47 +42,16 @@ rn = canalAWGN(an,sigmab2)
 x_rn = real(rn(:));
 y_rn = imag(rn(:));
 
-% new figure
-figure(2)
-
-% dessiner les points de la constellation
-scatter(x_rn,y_rn,50,'b*');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
-% parametres figure
-title('Representation of rn sequence');
-xlabel('I');
-ylabel('Q');
-grid on
-
 %--------------------------Receiver---------------------------
 
 % Calculating ân
 an2 = decision(rn,mComplex)
 
-figure(3)
-hold on;
 x_an2 = real(an2(:));
 y_an2 = imag(an2(:));
 
 x_an = real(an(:));
 y_an = imag(an(:));
-
-scatter(x_an,y_an,50,'m*');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
-scatter(x_an2,y_an2,50,'r');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
-scatter(x_rn,y_rn,50,'b*');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
-% figure parameters
-title('Representation of an, rn and ân sequences');
-xlabel('I');
-ylabel('Q');
-legend('an','ân','rn')
-grid on
 
 % demapping
 bitsn2 = demapGray(an2,mGray,mComplex);
@@ -152,30 +109,8 @@ for i = 1 : maxDB + 1
     symbErrorRateExp(i) = symbError/length(an);
 end
 
-% Plot
-figure()
-semilogy(normalisedNoiseDB,binErrorRateExp)
-hold on
-semilogy(normalisedNoiseDB,symbErrorRateExp)
-title("Experimental error rate curve ")
-xlabel("Normalised SNR in dB")
-ylabel("Bit error rate")
-ylim([0.0001 1])
-legend("Bit error rate","Symbol error rate")
-
 %% Question 4 Theoretical curve of error probability
 
 % Calculating theoretical error probability
 binErrorRateTh=4*((sqrt(M)-1)/(sqrt(M)*log2(M)))*0.5*erfc(sqrt(normalisedNoise*(3*log2(M))/(M-1))/sqrt(2));
 symbErrorRateTh=binErrorRateTh*log2(M);
-
-% Plot
-figure()
-semilogy(normalisedNoiseDB,binErrorRateTh)
-hold on
-semilogy(normalisedNoiseDB,symbErrorRateTh)
-title("Theoretical error rate curve ")
-xlabel("Normalised SNR in dB")
-ylabel("Bit error rate")
-%ylim([0 1.6])
-legend("Bit error rate","Symbol error rate")
