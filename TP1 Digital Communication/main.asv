@@ -120,11 +120,11 @@ symbErrorRateTh=binErrorRateTh*log2(M);
 %% Question 5 Complementary exercices
 
 %% Simulation of QPSK, 16-QAM,256-QAM
-%[QPSKbin,QPSKsymb] = synthesis(N,M,g0);
+[QPSKbin,QPSKsymb] = synthesis(N,M,g0);
 
-[QAM16bin,QAM16symb] = synthesisQAM(N,16,g0);
+[QAM16bin,QAM16symb] = synthesis(N,16,g0);
 
-[QAM256bin,QAM256symb] = synthesisQAM(N,256,g0);
+[QAM256bin,QAM256symb] = synthesis(N,256,g0);
 
 
 
