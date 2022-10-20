@@ -13,6 +13,17 @@ xlabel('I');
 ylabel('Q');
 grid on
 
+% Initialisation of the scale
+x = real(mComplex(:));
+y = imag(mComplex(:));
+z = mGray(:);
+
+% adding Gray code
+for k = 1 : M
+    text(x(k)-0.6,y(k)+0.3,...
+        dec2base(z(k),2,log2(M)),'Color',[1 0 0]);
+end
+
 %% Question 2 Communication chain
 
 % dessiner les points de la constellation

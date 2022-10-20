@@ -13,24 +13,12 @@ M = 16;
 mComplex = const_M_QAM(M);
 mGray = Gray_M_QAM(M);
 
-% Initialisation of the scale
-x = real(mComplex(:));
-y = imag(mComplex(:));
-z = mGray(:);
-
-% adding Gray code
-for k = 1 : M
-    text(x(k)-0.6,y(k)+0.3,...
-        dec2base(z(k),2,log2(M)),'Color',[1 0 0]);
-end
-
-
 %% Question 2 Communication chain
 
 %-----------------------AWGN--------------------------
 
 % Definition of varation and sequence's size
-N = 64;
+N = M*4;
 sigmab2 = 0.5;
 
 % Initialisation of binary sequence, calculation of an and rn
@@ -56,7 +44,6 @@ y_an = imag(an(:));
 % demapping
 bitsn2 = demapGray(an2,mGray,mComplex);
 bitsn2 = double(bitsn2 == '1');
-
 
 %% Question 3 Experimental binary and symbol error rates
 
@@ -120,10 +107,9 @@ symbErrorRateTh=binErrorRateTh*log2(M);
 %% Question 5 Complementary exercices
 
 %% Simulation of QPSK, 16-QAM,256-QAM
-%[QPSKbin,QPSKsymb] = synthesis(N,M,g0);
 
+[QPSKbin,QPSKsymb] = synthesis(N,M,g0);
 [QAM16bin,QAM16symb] = synthesisQAM(N,16,g0);
-
 [QAM256bin,QAM256symb] = synthesisQAM(N,256,g0);
 
 
