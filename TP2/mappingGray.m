@@ -7,7 +7,6 @@ function [mapGray] = mappingGray(M,seqBin,mGray,mComplex)
 %to the corresponding complex in the complex map of the 16-QAM
 
 tmpVector = [];
-mapGray = [];
 
 for i = 1 : log2(M) : size(seqBin,2)
     tmpGroup = zeros(1,4);
