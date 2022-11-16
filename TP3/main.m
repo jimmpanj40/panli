@@ -102,7 +102,7 @@ sortedG = sort(G,'descend');
 
 [an, am] = waterfilling(sortedG,N0,B,Pav,N);
 
-%rate=plog2
+rate=sum(log2(1+am*Pav/N0))/length(am)
 
 %% Step 7
 N=1000;
