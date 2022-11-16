@@ -85,4 +85,41 @@ N0 = 1;
 B = 1;
 N = 128;
 
-[an, am] = waterfilling(G,N0,B,Pav,N);
+[an, am] = waterfilling(sortedG,N0,B,Pav,N);
+
+%% Step 6
+N=1000
+Pav=1;
+N0 = 1;
+B = 1;
+
+X = N0 * randn(1,N);
+Y = N0 * randn(1,N);
+H = X + Y*j;
+G = abs(H).^2;
+sortedG = sort(G,'descend');
+
+
+[an, am] = waterfilling(sortedG,N0,B,Pav,N);
+
+%rate=plog2
+
+%% Step 7
+N=1000;
+
+N0 = 1;
+B = 1;
+
+X = N0 * randn(1,N);
+Y = N0 * randn(1,N);
+H = X + Y*j;
+G = abs(H).^2;
+sortedG = sort(G,'descend');
+
+SNR_list=10.^([1,3,6,10,13,16]./10);
+an_list=zeros(length(SNR_list),length(SNR_list));
+am_list=zeros(length(SNR_list),length(SNR_list));
+for i=1:length(SNR_list)
+    [an,am] = waterfilling(sortedG,N0,B,SNR_list(i),N);
+    
+end
