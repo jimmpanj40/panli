@@ -3,7 +3,7 @@ close all;
 clc;
 format short g;
 
-%% ------------- Task 1: Simulating a Rayleigh channel ----------------- %%
+%%---------------------- Simulating a Rayleigh channel ------------------%%
 
 %% Step 1
 
@@ -40,50 +40,17 @@ varH = var(H)
 modH = abs(H);
 mod2H = modH.^2;
 
-% Variance
-varModH = var(modH);
-varMod2H = var(mod2H);
-
 figure(2)
 subplot(211)
 histogram(modH)
 xlabel("Gaussian random variable")
 ylabel("Number of samples")
-legend("module(H)")
-title("Module of complex randoms variables of H")
+legend("X")
+title("Module of complex random variable of H")
 subplot(212)
 histogram(mod2H)
 xlabel("Gaussian random variable")
 ylabel("Number of samples")
-legend("module(H)²")
-title("Squared module of complex randoms variables of H")
-
-
-%% - Task 2 : Implementing the waterfilling power allocation algorithm - %%
-
-%% Step 4
-
-channelN = 128;
-sigma2 = 0.5;
-X = sigma2 * randn(1,channelN);
-Y = sigma2 * randn(1,channelN);
-H = X + Y*j;
-G = abs(H).^2;
-sortedG = sort(G,'descend');
-
-figure(3)
-plot(sortedG)
-xlabel("Channel gains")
-ylabel("Rank of gains values")
-legend("G")
-title("Sorted channel gains G")
-
-%% Step 5
-
-N0 = 1;
-B = 1;
-
-an = G/(N0*B);
-
-
+legend("")
+title("Squared module of complex random variable of H")
 
