@@ -70,6 +70,7 @@ Y = sigma2 * randn(1,channelN);
 H = X + Y*j;
 G = abs(H).^2;
 sortedG = sort(G,'descend');
+Pav = mean(G);
 
 figure(3)
 plot(sortedG)
@@ -82,8 +83,6 @@ title("Sorted channel gains G")
 
 N0 = 1;
 B = 1;
+N = 128;
 
-an = G/(N0*B);
-
-
-
+[an, am] = waterfilling(G,N0,B,Pav,N);
