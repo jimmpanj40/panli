@@ -9,18 +9,23 @@ format short g;
 
 N = 5000;
 sigma2 = 0.5;
-X = sigma2 * randn(1,N);
-Y = sigma2 * randn(1,N);
+X = sqrt(sigma2) * randn(1,N);
+Y = sqrt(sigma2) * randn(1,N);
 
 figure(1)
 subplot(211)
+
 histogram(X)
+axis([-3 3 0 350])
+
 xlabel("Gaussian random variable")
 ylabel("Number of samples")
 legend("X")
 title("First i.i.d. zero-mean Gaussian random variables")
 subplot(212)
 histogram(Y)
+axis([-3 3 0 350])
+
 xlabel("Gaussian random variable")
 ylabel("Number of samples")
 legend("Y")
@@ -38,24 +43,24 @@ varH = var(H)
 %% Step 3
 
 modH = abs(H);
-mod2H = modH.^2;
+G = abs(H).^2;
 
 % Variance
 varModH = var(modH);
-varMod2H = var(mod2H);
+varG = var(G);
 
 figure(2)
 subplot(211)
 histogram(modH)
 xlabel("Gaussian random variable")
 ylabel("Number of samples")
-legend("module(H)")
+legend("modH=|H|")
 title("Module of complex randoms variables of H")
 subplot(212)
-histogram(mod2H)
+histogram(G)
 xlabel("Gaussian random variable")
 ylabel("Number of samples")
-legend("module(H)²")
+legend("G=|H|^2")
 title("Squared module of complex randoms variables of H")
 
 
@@ -63,19 +68,18 @@ title("Squared module of complex randoms variables of H")
 
 %% Step 4
 
-channelN = 128;
+N = 128;
 sigma2 = 0.5;
-X = sigma2 * randn(1,channelN);
-Y = sigma2 * randn(1,channelN);
+X = sigma2 * randn(1,N);
+Y = sigma2 * randn(1,N);
 H = X + Y*j;
 G = abs(H).^2;
 sortedG = sort(G,'descend');
-Pav = mean(G);
-
+Pav=mean(G);
 figure(3)
 plot(sortedG)
-xlabel("Channel gains")
-ylabel("Rank of gains values")
+xlabel("Rank of gains values")
+ylabel("Channel gains")
 legend("G")
 title("Sorted channel gains G")
 
@@ -85,48 +89,96 @@ N0 = 1;
 B = 1;
 N = 128;
 
-[an, am] = waterfilling(sortedG,N0,B,Pav,N);
+[an, am,P_allocated] = waterfilling(sortedG,N0,B,Pav,N);
+
+
+figure(4)
+subplot(211)
+axis([0 N 0 5])
+bar(an)
+axis([0 N 0 max(an)])
+xlabel("Rank of gains value")
+ylabel("Gain")
+legend("Entry")
+
+
+subplot(212)
+bar(am)
+axis([0 length(an) 0 max(an)])
+xlabel("Rank of gains value")
+ylabel("Gain")
+legend("Output")
+
+figure(5)
+subplot(211)
+
+axis([0 length(an) 0 max(1./an)])
+bar(fliplr(1./an))
+axis([0 N 0 max(1./an)])
+xlabel("Rank of gains value")
+ylabel("Gain")
+
+hold on
+bar([zeros(1,length(an)-length(am)) fliplr(1./am)])
+axis([0 length(an) 0 max(1./an)])
+xlabel("Rank of gains value")
+ylabel("1/an")
+legend("Entry","Output")
+
+subplot(212)
+axis([0 length(an) 0 20])
+bar(fliplr(1./an))
+axis([0 N 0 max(1./an)])
+xlabel("Rank of gains value")
+ylabel("Gain")
+
+hold on
+bar([zeros(1,length(an)-length(am)) fliplr(1./am)])
+axis([0 length(an) 0 20])
+xlabel("Rank of gains value")
+ylabel("1/an")
+legend("Entry","Output")
+
+%Power allocated 
+figure(6)
+subplot(211)
+bar(P_allocated)
+xlabel("Rank of the channel m")
+ylabel("P_allocated to the channel m")
+
+subplot(212)
+bar(1./am)
+xlabel("Rank of gains value")
+ylabel("1/am")
+legend("Entry","Output")
+
 
 %% Step 6
-N=1000
+N2=1000
 Pav=1;
 N0 = 1;
 B = 1;
 
-X = N0 * randn(1,N);
-Y = N0 * randn(1,N);
+X = N0 * randn(1,N2);
+Y = N0 * randn(1,N2);
 H = X + Y*j;
 G = abs(H).^2;
 sortedG = sort(G,'descend');
 
 
-an = G/(N0*B);
-am=an;
-M=length(am);
+[an, am] = waterfilling(sortedG,N0,B,Pav,N2);
 
-condition= true ; %Condition which indicate if we continue or stop the waterfilling algorithm
-P=N*Pav;
-
-while condition
-    inverseLambda=(P+sum(1./am))/M;
-    if isempty(find((inverseLambda-1./am)<0)) == false
-        am=am(1:end-1);
-        M=length(am);
-    else 
-        condition=false; % Then, we got our ak such as the power of the system is not exceeded
-    end   
-end 
-
+rate=sum(log2(1+am*Pav/N0))/length(am)
 
 %% Step 7
-N=1000;
+N2=1000;
 
 N0 = 1;
 B = 1;
 
-X = N0 * randn(1,N);
-Y = N0 * randn(1,N);
-H = X + Y*j;
+X = N0 * randn(1,N2);
+Y = N0 * randn(1,N2);
+H = X + Y*1i;
 G = abs(H).^2;
 sortedG = sort(G,'descend');
 
@@ -134,6 +186,6 @@ SNR_list=10.^([1,3,6,10,13,16]./10);
 an_list=zeros(length(SNR_list),length(SNR_list));
 am_list=zeros(length(SNR_list),length(SNR_list));
 for i=1:length(SNR_list)
-    [an,am] = waterfilling(sortedG,N0,B,SNR_list(i),N);
+    [an,am] = waterfilling(sortedG,N0,B,SNR_list(i),N2);
     
 end
