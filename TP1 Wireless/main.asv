@@ -3,20 +3,20 @@ close all;
 clc;
 format short g;
 
-%% 1 Rayleigh Channel
-%% 1.1 h fixed
+%% Question 1 Constellation M-QAM
 
 M = 16;
 mComplex = const_M_QAM(M);
 mGray = Gray_M_QAM(M);
-N = M*M;
+N = M*16;
 sigmab2 = 0.5;
 
 % Initialisation of binary sequence, calculation of an and rn
 bitsN = genBin(N);
 an1 = mappingGray(M,bitsN,mGray,mComplex);
 h=sqrt(1/2)*rand+j*sqrt(1/2)*rand;
-an2= h*an1;
+yn1= h*an1/abs(h);
+
 
 %% Question 2 Communication chain
 N = M*4;

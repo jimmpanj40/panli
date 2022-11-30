@@ -1,5 +1,5 @@
-%% 1 Rayleigh Channel
-% 1.1 h fixed
+%% Question 1 Constellation M-QAM
+
 
 % Initialisation of the scale
 x1 = real(an1(:));
@@ -14,26 +14,24 @@ for k = 1 : M
     text(x(k)-0.6,y(k)+0.3,...
         dec2base(z(k),2,log2(M)),'Color',[1 0 0]);
 end
-
 figure()
 scatter(x1,y1,50,'b*');          
 axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-title('Representation of Gray mapping');
+title('Representation of gray sequence');
 xlabel('I');
 ylabel('Q');
 grid on
-legend('QAM')
 
 figure()
 scatter(x2,y2,50,'r*');          
-axis([-sqrt(M)*sqrt(2) sqrt(M)*sqrt(2) -sqrt(M)*sqrt(2) sqrt(M)*sqrt(2)]);
-title('Representation of Gray mapping');
+axis([-sqrt(M)*sqrt(2) sqrt(M)*sqrt(2) -sqrt(M)*sqrt(2) sqrt(M)]);
+title('Representation of gray sequence');
 xlabel('I');
 ylabel('Q');
 grid on
-legend('QAM after rotation du to h')
 
-%% 1.2
+
+%% Question 2 Communication chain
 
 % dessiner les points de la constellation
 figure()
