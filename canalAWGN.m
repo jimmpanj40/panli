@@ -4,5 +4,6 @@ function [rn] = canalAWGN(an,sigmab2)
 N = length(an);
 bn = sqrt(sigmab2).*randn(N,1) + j*sqrt(sigmab2).*randn(N,1);
 rn = an + bn';
+size(rn)
 end
 

@@ -36,14 +36,6 @@ legend('QAM after rotation du to h')
 %% 1.2
 
 % dessiner les points de la constellation
-figure()
-scatter(x_rn,y_rn,50,'b*');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
-title('Representation of rn sequence');
-xlabel('I');
-ylabel('Q');
-grid on
 
 
 figure()
@@ -52,30 +44,30 @@ hold on;
 scatter(x_an,y_an,50,'m*');          
 axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
 
-scatter(x_an2,y_an2,50,'r');          
+scatter(x_anHat,y_anHat,50,'r');          
 axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
 
-scatter(x_rn,y_rn,50,'b*');          
 axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
 
 % figure parameters
-title('Representation of an, rn and ân sequences');
+title('Representation of an and ân sequences');
 xlabel('I');
 ylabel('Q');
-legend('an','ân','rn')
+legend('an','ân')
 grid on
 
 %% Question 3 Experimental binary and symbol error rates
 
 figure()
-semilogy(normalisedNoiseDB,binErrorRateExp)
-hold on
 semilogy(normalisedNoiseDB,symbErrorRateExp)
+hold on
+semilogy(normalisedNoiseDB,symbErrorRateExpAWGN)
+
 title("Experimental error rate curve ")
 xlabel("Normalised SNR in dB")
-ylabel("Bit error rate")
-ylim([0.0001 1])
-legend("Bit error rate","Symbol error rate")
+ylabel("Symbol error rate")
+ylim([0.0001 1.1])
+legend('Rayleigh','AWGN')
 
 %% Question 4 Theoretical curve of error probability
 figure()
