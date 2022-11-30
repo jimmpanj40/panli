@@ -1,0 +1,21 @@
+warning('off')
+%% Q2
+clear
+clc
+
+
+%%
+M=16;
+mComplex=const_M_QAM(M);
+mGray=Gray_M_QAM(M);
+
+N=16;
+bits=genBin(N);
+an=mappingGray(M,bits,mGray,mComplex);
+rn=canalAWGN(an,0.5);
+an_hat=decision(rn,mComplex);
+bits_hat=demapGray(an_hat,mGray,mComplex);
+
+%% Chaine de transmission globale
+sigma2=0.1;
+[bits, bits_hat,an,an_hat]=chaine16QAM(M,N,sigma2,1);
