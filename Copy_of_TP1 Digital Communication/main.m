@@ -105,3 +105,12 @@ binErrorRateTh=4*((sqrt(M)-1)/(sqrt(M)*log2(M)))*0.5*erfc(sqrt(normalisedNoise*(
 symbErrorRateTh=binErrorRateTh*log2(M);
 
 %% Question 5 Complementary exercices
+
+%% Simulation of QPSK, 16-QAM,256-QAM
+
+[QAM16bin,QAM16symb] = synthesisQAM(N,16,g0);
+[QAM256bin,QAM256symb] = synthesisQAM(N,256,g0);
+
+
+
+
