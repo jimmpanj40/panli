@@ -1,5 +1,5 @@
-%% 1 Rayleigh Channel
-% 1.1 h fixed
+%% Exercice  1 Rayleigh Channel
+%% 1.1 h fixed
 % Initialisation of the scale
 x = real(mComplex(:));
 y = imag(mComplex(:));
@@ -31,46 +31,34 @@ legend('QAM after rotation du to h')
 
 %% 1.2
 
-% dessiner les points de la constellation
-
 figure()
-hold on;
-
-scatter(x_an,y_an,50,'m*');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
-scatter(x_anHat,y_anHat,50,'r');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-
-% figure parameters
-title('Representation of an and ân sequences');
-xlabel('I');
-ylabel('Q');
-legend('an','ân')
-grid on
-
-%% Question 3 Experimental binary and symbol error rates
-
-figure()
-semilogy(normalisedNoiseDB,symbErrorRateExp)
+semilogy(normalisedNoiseDB,symbErrorRateAWGN) 
 hold on
-semilogy(normalisedNoiseDB,symbErrorRateAWGN)
+semilogy(normalisedNoiseDB,symbErrorRateExp1)
 
-title("Experimental error rate curve ")
+
+title("SISO Experimental error rate curve ")
 xlabel("Normalised SNR in dB")
-ylabel("Symbol error rate")
+ylabel(" Symbol error rate")
 ylim([0.0001 1.1])
 legend('Rayleigh','AWGN')
 
-%% Question 4 Theoretical curve of error probability
+%% Exercice 2
+
 figure()
-semilogy(normalisedNoiseDB,binErrorRateTh)
+semilogy(normalisedNoiseDB,symbErrorRateExp1)
 hold on
-semilogy(normalisedNoiseDB,symbErrorRateTh)
-title("Theoretical error rate curve ")
+semilogy(normalisedNoiseDB,symbErrorRateExp2)
+hold on
+semilogy(normalisedNoiseDB,symbErrorRateExp3)
+hold on
+semilogy(normalisedNoiseDB,symbErrorRateExp4)
+hold off
+
+title("SIMO Experimental error rate curve ")
 xlabel("Normalised SNR in dB")
-ylabel("Bit error rate")
-%ylim([0 1.6])
-legend("Bit error rate","Symbol error rate")
+ylabel("Symbol error rate")
+ylim([0.0001 1.1])
+legend('N=1','N=2','N=3','N=4')
+
+%% Exercice 3
