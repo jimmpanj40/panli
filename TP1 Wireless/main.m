@@ -75,3 +75,42 @@ binErrorRateTh=4*((sqrt(M)-1)/(sqrt(M)*log2(M)))*0.5*erfc(sqrt(normalisedNoise*(
 symbErrorRateTh=binErrorRateTh*log2(M);
 
 %% Question 5 Complementary exercices
+
+
+%% Exercice 2 SIMO system - receive diversity
+
+M = 16;
+N = 10000;
+Nchannel = 2;
+g0 = 1;
+
+% Normalised SNR
+maxDB = 30;
+normalisedNoiseDB = 0 : maxDB;
+normalisedNoise = 10.^(normalisedNoiseDB/10);
+
+% Variance calculation
+sigma2 = (g0^2*(M - 1))./(3*log2(M)*normalisedNoise);
+
+binErrorRateExp = zeros(1,13);
+symbErrorRateExpMIMO = zeros(1,13);
+
+bitsN = genBin(N);
+x = mappingGray(M,bitsN,mGray,mComplex);
+
+% Calculation of the error rate for each dB
+for i = 1 : maxDB + 1
+    symbError = 0;
+    h = sqrt(1/2)*randn(Nchannel,1)+j*sqrt(1/2)*randn(Nchannel,1);
+    y = h.*x + sqrt(sigma2(i)).*randn(Nchannel,1) + j*sqrt(sigma2(i)).*randn(Nchannel,length(x));
+    yn = (h'/norm(h))*y;
+    anHat = decision(yn,mComplex);
+
+    % Calculating bit and symbols error rate
+    for q = 1 : length(x)
+        if x(q) ~= anHat(q)
+            symbError = symbError + 1;
+        end
+    end
+    symbErrorRateExpMIMO(i) = symbError/length(x);
+end
