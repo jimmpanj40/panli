@@ -1,5 +1,10 @@
 %% 1 Rayleigh Channel
 % 1.1 h fixed
+% Initialisation of the scale
+x = real(mComplex(:));
+y = imag(mComplex(:));
+z = mGray(:);
+
 
 % Initialisation of the scale
 x1 = real(an1(:));
@@ -7,7 +12,6 @@ y1 = imag(an1(:));
 
 x2 = real(an2(:));
 y2 = imag(an2(:));
-z = mGray(:);
 
 % adding Gray code
 for k = 1 : M
@@ -15,14 +19,6 @@ for k = 1 : M
         dec2base(z(k),2,log2(M)),'Color',[1 0 0]);
 end
 
-figure()
-scatter(x1,y1,50,'b*');          
-axis([-sqrt(M) sqrt(M) -sqrt(M) sqrt(M)]);
-title('Representation of Gray mapping');
-xlabel('I');
-ylabel('Q');
-grid on
-legend('QAM')
 
 figure()
 scatter(x2,y2,50,'r*');          
@@ -36,7 +32,6 @@ legend('QAM after rotation du to h')
 %% 1.2
 
 % dessiner les points de la constellation
-
 
 figure()
 hold on;
@@ -61,7 +56,7 @@ grid on
 figure()
 semilogy(normalisedNoiseDB,symbErrorRateExp)
 hold on
-semilogy(normalisedNoiseDB,symbErrorRateExpAWGN)
+semilogy(normalisedNoiseDB,symbErrorRateAWGN)
 
 title("Experimental error rate curve ")
 xlabel("Normalised SNR in dB")
