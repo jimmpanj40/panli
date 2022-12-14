@@ -82,7 +82,10 @@ normalisedNoise = 10.^(normalisedNoiseDB/10);
 % Variance calculation
 sigma2 = (g0^2*(M_QAM - 1))./(3*log2(M_QAM)*normalisedNoise);
 
-symbErrorRateExp = zeros(1,maxDB+1);
+symbErrorRateExp1 = zeros(1,maxDB+1);
+symbErrorRateExp2 = zeros(1,maxDB+1);
+symbErrorRateExp3 = zeros(1,maxDB+1);
+symbErrorRateExp4 = zeros(1,maxDB+1);
 
 % Communication chain
 mComplex = const_M_QAM(M_QAM);
@@ -188,3 +191,60 @@ for i = 1 : maxDB + 1
   
         symbErrorRateExp4(i) = symbError/length(an);
 end
+%% diversity
+g0 = 1;
+M_QAM = 16;
+T = 4*40000; %40000 symbols
+M=1;
+
+% Normalised SNR
+maxDB = 30; 
+normalisedNoiseDB = 0 : maxDB;
+normalisedNoise = 10.^(normalisedNoiseDB/10);
+
+% Variance calculation
+sigma2 = (g0^2*(M_QAM - 1))./(3*log2(M_QAM)*normalisedNoise);
+
+symbErrorRateExp = zeros(1,maxDB+1);
+
+% Communication chain
+mComplex = const_M_QAM(M_QAM);
+mGray = Gray_M_QAM(M_QAM);
+binSeq = genBin(M,T);
+an = mappingGray(M_QAM,binSeq,mGray,mComplex);
+
+% N=1
+N=1;
+for i = 1 : maxDB + 1
+    symbError = 0;
+    yn=zeros(N,T/4);
+    for k=1:T/4
+        h=sqrt(1/2)*randn(N,M)+1i*sqrt(1/2)*randn(N,M);
+
+        an2= h*an(:,k);
+
+        rn=an2+sqrt(sigma2(i)).*randn(N,1) + 1i*sqrt(sigma2(i)).*randn(N,1);
+        yn(:,k) = h'*rn/(norm(h)^2);
+    end
+        anHat = decision(yn,mComplex);
+
+        % Calculating bit and symbols error rate
+        for q = 1 : length(an)
+            if an(q) ~= anHat(q)
+                symbError = symbError + 1;
+            end
+        end
+  
+        symbErrorRateExp1(i) = symbError/length(an);
+end
+%%
+d2= -(log(symbErrorRateExp1)./(log(normalisedNoise)))
+d3= -(log(symbErrorRateExp3)./(log(normalisedNoise)))
+d4= -(log(symbErrorRateExp4)./(log(normalisedNoise)))
+
+semilogy(normalisedNoise,d2)
+hold on
+semilogy(normalisedNoise,d3)
+hold on
+semilogy(normalisedNoise,d4)
+hold off

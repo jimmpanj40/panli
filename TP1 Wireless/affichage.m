@@ -46,8 +46,6 @@ legend('Rayleigh','AWGN')
 %% Exercice 2
 
 figure()
-semilogy(normalisedNoiseDB,symbErrorRateExp1)
-hold on
 semilogy(normalisedNoiseDB,symbErrorRateExp2)
 hold on
 semilogy(normalisedNoiseDB,symbErrorRateExp3)
@@ -59,6 +57,6 @@ title("SIMO Experimental error rate curve ")
 xlabel("Normalised SNR in dB")
 ylabel("Symbol error rate")
 ylim([0.0001 1.1])
-legend('N=1','N=2','N=3','N=4')
+legend('N=2','N=3','N=4')
 
 %% Exercice 3
